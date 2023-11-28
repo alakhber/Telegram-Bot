@@ -28,6 +28,7 @@ class TelegramCommand extends Command
      */
     public function handle()
     {
+        dd(1);
         $tgBot = new TelegramBot;
         $tgService = new TelegramCommandService($tgBot);
         $callMethod = '_'.$this->option('operation');
