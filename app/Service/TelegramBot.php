@@ -5,6 +5,7 @@ namespace App\Service;
 use Exception;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use App\Service\QrScanner;
 
 class TelegramBot
 {
@@ -62,7 +63,7 @@ class TelegramBot
     private function checkQR(string $file)
     {
         $newFileName = null;
-        $qrScanner = new QRScanner();
+        $qrScanner = new QrScanner();
         if ($qrScanner->checkOurQR($file)) {
             $newFileName = str_replace('tmp', 'telegram', $file);
             File::move($file, $newFileName);
