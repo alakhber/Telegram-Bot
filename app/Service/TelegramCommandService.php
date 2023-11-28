@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\DB;
 class TelegramCommandService
 {
 
-    public function __construct(private TelegramBot $tgBot)
+    private $tgBot;
+    public function __construct(TelegramBot $tgBot)
     {
+        $this->tgBot = $tgBot;
     }
 
     public function _getMessage()
@@ -64,5 +66,8 @@ class TelegramCommandService
     
     public function _updateStatus(){
         $getKgos = ReadKgo::whereIsUpdate(0)->get();
+
+
+        
     }
 }

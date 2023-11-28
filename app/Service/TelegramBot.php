@@ -76,7 +76,10 @@ class TelegramBot
 
     private function sendRequest(string $url)
     {
-        $curl = curl_init() or throw new Exception('Curl Not Initialized', 500);
+        $curl = curl_init();
+        if (!$curl) {
+            throw new Exception('Curl Not Initialized', 500);
+        }
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_ENCODING, '');
@@ -149,7 +152,7 @@ class TelegramBot
         return $prettyData;
     }
 
-    public function sendMessage($chatID, $messageID,$message)
+    public function sendMessage($chatID, $messageID, $message)
     {
         $text = urlencode($message);
         $url = $this->apiUrl . $this->token . "/sendMessage?chat_id=$chatID&text=$text&reply_to_message_id=$messageID";
