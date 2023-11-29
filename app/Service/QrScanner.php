@@ -24,6 +24,6 @@ class QrScanner
     private function prettyData()
     {
         preg_match('/' . $this->kgoPrefix . '\w*/', $this->result, $matches);
-        $this->result = $matches[0];
+        $this->result = str_replace('KGO9920','',$matches[0]);
     }
 }
