@@ -67,8 +67,11 @@ class TelegramCommandService
     public function _updateStatus(){
         $getKgos = ReadKgo::whereIsUpdate(0)->get();
 
-        dd($getKgos);
-
-        
+        foreach ($getKgos as $key => $value) {
+            $orderId = DB::connection('cango')->table('orders')->where('id',str_replace('KGO9920','',$value->kgo))->first();
+            if(!is_null($orderId)){
+                dump($orderId->id);
+            }
+        }
     }
 }
