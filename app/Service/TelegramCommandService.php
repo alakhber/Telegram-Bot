@@ -84,8 +84,8 @@ class TelegramCommandService
 
                 // Packages Tableden  Order Id gore paketin Tapilmasi
                 $package = $connection->table('packages')->where('id', $orderId->package_id)->first();
-                if (!is_null($courierReqPackages)) {
-                    $df['courier_request'] = $courierRequest->id;
+                if (!is_null($package)) {
+                    $df['package_id'] = $package->id;
                 }
             }
             dump($df);
