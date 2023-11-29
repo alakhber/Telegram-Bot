@@ -51,7 +51,7 @@ class TelegramCommandService
 
                 DB::beginTransaction();
 
-                $qr->kgo()->create(['kgo' => str_replace('KGO9920', '', $result)]);
+                $qr->kgo()->create(['kgo' =>  $result]);
                 $qr->update(['is_read' => true]);
 
                 DB::commit();
@@ -69,7 +69,7 @@ class TelegramCommandService
         $df = [];
         foreach ($getKgos as $key => $value) {
             //  Order Tableden Orderin Tapilmasi
-            $orderId = $connection->table('orders')->where('id', str_replace('KGO9920', '', $value->kgo))->first();
+            $orderId = $connection->table('orders')->where('id', $value->kgo)->first();
             if (!is_null($orderId)) {
                 // Courier Request Packages Tableden  Order Id gore Kuryerin Tapilmasi
                 $courierReqPackages = $connection->table('courier_request_packages')->where('package_id', $orderId->package_id)->first();
