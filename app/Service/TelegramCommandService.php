@@ -66,7 +66,7 @@ class TelegramCommandService
     {
         $connection = DB::connection('cango');
         $getKgos = ReadKgo::whereIsUpdate(0)->get();
-
+        $df = [];
         foreach ($getKgos as $key => $value) {
             //  Order Tableden Orderin Tapilmasi
             $orderId = $connection->table('orders')->where('id', str_replace('KGO9920', '', $value->kgo))->first();
@@ -77,17 +77,18 @@ class TelegramCommandService
                     // Courier Request  Tableden  Courier Request Packages tablesindeki courier_request_id  gore Kuryer Requestin Tapilmasi
                     $courierRequest =  $connection->table('courier_requests')->where('id', $courierReqPackages->courier_request_id)->first();
                     if (!is_null($courierRequest)) {
-                        dump(['courier_request' => $courierRequest->id]);
+                        $df['courier_request']= $courierRequest->id;
                     }
-                    dump(['courier_request_packages' => $courierRequest->id]);
+                    $df['courier_request_packages'] = $courierRequest->id;
                 }
 
                 // Packages Tableden  Order Id gore paketin Tapilmasi
                 $package = $connection->table('packages')->where('id', $orderId->package_id)->first();
                 if (!is_null($courierReqPackages)) {
-                    dump(['courier_request' => $courierRequest->id]);
+                    $df['courier_request'] = $courierRequest->id;
                 }
             }
+            dump($df);
         }
     }
 }
