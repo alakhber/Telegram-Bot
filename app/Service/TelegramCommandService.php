@@ -75,7 +75,7 @@ class TelegramCommandService
                 $courierReqPackages = $connection->table('courier_request_packages')->where('package_id', $orderId->package_id)->first();
                 if (!is_null($courierReqPackages)) {
                     // Courier Request  Tableden  Courier Request Packages tablesindeki courier_request_id  gore Kuryer Requestin Tapilmasi
-                    $courierRequest =  $connection->table('courier_request')->where('id', $courierReqPackages->courier_request_id)->first();
+                    $courierRequest =  $connection->table('courier_requests')->where('id', $courierReqPackages->courier_request_id)->first();
                     if (!is_null($courierRequest)) {
                         dump(['courier_request' => $courierRequest->id]);
                     }
