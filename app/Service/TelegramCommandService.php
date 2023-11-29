@@ -67,6 +67,7 @@ class TelegramCommandService
     public function _updateStatus(){
         $getKgos = ReadKgo::whereIsUpdate(0)->get();
 
+        dd($getKgos);
 
         
     }
