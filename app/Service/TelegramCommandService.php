@@ -69,26 +69,35 @@ class TelegramCommandService
         $df = [];
         foreach ($getKgos as $key => $value) {
             //  Order Tableden Orderin Tapilmasi
-            $orderId = $connection->table('orders')->where('id', $value->kgo)->first();
-            if (!is_null($orderId)) {
-                // Courier Request Packages Tableden  Order Id gore Kuryerin Tapilmasi
-                $courierReqPackages = $connection->table('courier_request_packages')->where('package_id', $orderId->package_id)->first();
-                if (!is_null($courierReqPackages)) {
-                    // Courier Request  Tableden  Courier Request Packages tablesindeki courier_request_id  gore Kuryer Requestin Tapilmasi
-                    $courierRequest =  $connection->table('courier_requests')->where('id', $courierReqPackages->courier_request_id)->first();
-                    if (!is_null($courierRequest)) {
-                        $df['courier_request']= $courierRequest->id;
+            try {
+                DB::beginTransaction();
+                $orderId = $connection->table('orders')->where('id', $value->kgo)->first();
+                if (!is_null($orderId)) {
+                    // Courier Request Packages Tableden  Order Id gore Kuryerin Tapilmasi
+                    $courierReqPackages = $connection->table('courier_request_packages')->where('package_id', $orderId->package_id)->first();
+                    if (!is_null($courierReqPackages)) {
+                        // Courier Request  Tableden  Courier Request Packages tablesindeki courier_request_id  gore Kuryer Requestin Tapilmasi
+                        $courierRequest =  $connection->table('courier_requests')->where('id', $courierReqPackages->courier_request_id)->first();
+                        if (!is_null($courierRequest)) {
+                            $df['courier_request'] = $courierRequest->id;
+                        }
+                        $df['courier_request_packages'] = $courierRequest->id;
                     }
-                    $df['courier_request_packages'] = $courierRequest->id;
-                }
 
-                // Packages Tableden  Order Id gore paketin Tapilmasi
-                $package = $connection->table('packages')->where('id', $orderId->package_id)->first();
-                if (!is_null($package)) {
-                    $df['package_id'] = $package->id;
+                    // Packages Tableden  Order Id gore paketin Tapilmasi
+                    $package = $connection->table('packages')->where('id', $orderId->package_id)->first();
+                    if (!is_null($package)) {
+                        $df['package_id'] = $package->id;
+                    }
                 }
+                $this->tgBot->sendMessage($value->telegram->chat_id, $value->telegram->message_id, 'Çatdırılma Tamalandı !');
+
+                dump($df);
+                DB::commit();
+            } catch (\Throwable $th) {
+                DB::rollback();
+                $this->tgBot->sendMessage($value->telegram->chat_id, $value->telegram->message_id, 'Əməliyat Zamanı Xəta Baş Verdi.Yenidən Yoxlayın Və Ya Bildirin !');
             }
-            dump($df);
         }
     }
 }
