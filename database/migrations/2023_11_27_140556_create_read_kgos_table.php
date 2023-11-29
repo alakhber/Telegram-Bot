@@ -14,6 +14,7 @@ class CreateReadKgosTable extends Migration
         Schema::create('read_kgos', function (Blueprint $table) {
             $table->id();
             $table->string('kgo');
+            $table->foreignId('telegram_id')->on('telegrams')->referance('id')->onDelete('cascade');
             $table->boolean('is_update')->default(0);
             $table->timestamps();
         });

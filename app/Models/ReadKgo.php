@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReadKgo extends Model
 {
-    protected $fillable = ['kgo','is_update'];
+    protected $fillable = ['kgo','telegram_id','is_update'];
+
+    public function telegram(){
+        return $this->belongsTo(Telegram::class,'telegram_id');
+    }
 }

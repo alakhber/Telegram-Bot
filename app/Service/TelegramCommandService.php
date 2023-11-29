@@ -51,7 +51,7 @@ class TelegramCommandService
 
                 DB::beginTransaction();
 
-                ReadKgo::create(['kgo' => str_replace('KGO9920', '', $result)]);
+                $qr->kgo()->create(['kgo' => str_replace('KGO9920', '', $result)]);
                 $qr->update(['is_read' => true]);
 
                 DB::commit();
