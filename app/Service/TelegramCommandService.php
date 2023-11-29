@@ -88,14 +88,14 @@ class TelegramCommandService
                 $courierRequest = $this->getCourierRequest($orderId, $courierReqPackages, $order);
                 $this->checkPackageStatusPreventDublicate($orderId,$package);
                 // Update Operations
-                $order->update(['status' => self::ORDER_COMPLETED]);
-                $package->update(['status' => self::PACKAGE_COMPLETED]);
-                $courierRequest->update(['status' => self::COURIER_STATUS_DELIVERED]);
+                // $order->update(['status' => self::ORDER_COMPLETED]);
+                // $package->update(['status' => self::PACKAGE_COMPLETED]);
+                // $courierRequest->update(['status' => self::COURIER_STATUS_DELIVERED]);
                 // Write Log
                 $this->writePackageLogs($order,$package);
                 //Send Message And Update TG Message
                 $this->tgBot->sendMessage($value->telegram->chat_id, $value->telegram->message_id, 'Çatdırılma Tamalandı !');
-                $value->update(['is_update' => true]);
+                // $value->update(['is_update' => true]);
 
                 DB::commit();
             } catch (\Throwable $th) {
