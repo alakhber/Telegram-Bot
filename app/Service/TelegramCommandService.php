@@ -65,12 +65,15 @@ class TelegramCommandService
     }
     
     public function _updateStatus(){
+        $connection = DB::connection('cango');
         $getKgos = ReadKgo::whereIsUpdate(0)->get();
 
         foreach ($getKgos as $key => $value) {
-            $orderId = DB::connection('cango')->table('orders')->where('id',str_replace('KGO9920','',$value->kgo))->first();
+            $orderId = $connection->table('orders')->where('id',str_replace('KGO9920','',$value->kgo))->first();
             if(!is_null($orderId)){
+            //    $courierReqPackages = 
                 dump($orderId->id);
+
             }
         }
     }
