@@ -63,6 +63,8 @@ class TelegramBot
     private function checkQR(string $file)
     {
         $newFileName = null;
+        $path = now()->format('d-m-Y');
+        File::ensureDirectoryExists(storage_path('app/public/'.$path));
         $qrScanner = new QrScanner();
         if ($qrScanner->checkOurQR($file)) {
             $newFileName = str_replace('tmp', 'telegram', $file);
