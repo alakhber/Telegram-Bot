@@ -76,7 +76,7 @@ class TelegramCommandService
 
     public function _updateStatus()
     {
-        $getKgos = ReadKgo::whereIsUpdate(0)->get();
+        $getKgos = ReadKgo::whereIsUpdate(0)->limit(50)->get();
         foreach ($getKgos as $key => $value) {
             $orderId = $value->kgo;
             try {
